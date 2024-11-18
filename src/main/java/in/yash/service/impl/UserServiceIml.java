@@ -5,11 +5,16 @@ import in.yash.dto.loginResponse;
 import in.yash.dto.signUpRequest;
 import in.yash.dto.signUpResponse;
 import in.yash.exceptionHandling.UserAlreadyExistException;
+import in.yash.jwtServices.JwtTokenService;
 import in.yash.model.User;
 import in.yash.repo.UserRepo;
 import in.yash.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +32,13 @@ public class UserServiceIml implements UserService {
     @Autowired
     private ModelMapper mapper;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtTokenService jwtTokenService;
+
+
     @Override
     public signUpResponse createUser(signUpRequest request) {
         Optional<User>alreadyExitsUser =userRepo.findByEmail(request.getEmail());
@@ -43,6 +55,17 @@ public class UserServiceIml implements UserService {
 
     @Override
     public loginResponse loginUp(loginRequest request) {
-        return null;
+        Authentication authenticate =authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword()));
+        loginResponse response=new loginResponse();
+        if(authenticate.isAuthenticated()){
+            Optional<User> user=userRepo.findByEmail(request.getEmail());
+            if(user.isEmpty()){
+                throw new UsernameNotFoundException("User is not present with username: "+request.getEmail());
+            }
+            String token=jwtTokenService.generateToken(user.get());
+
+            response.setToken(token);
+        }
+        return response;
     }
 }
