@@ -8,4 +8,6 @@ import in.yash.dto.signUpResponse;
 public interface UserService {
     signUpResponse createUser(signUpRequest request);
     loginResponse loginUp(loginRequest request);
+
+    loginResponse generateNewAcessToken(String refreshToken);
 }

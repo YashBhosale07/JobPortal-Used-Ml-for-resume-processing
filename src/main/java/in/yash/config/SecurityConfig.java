@@ -27,8 +27,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth->auth
                         .requestMatchers("/user/register").permitAll()
                         .requestMatchers("/user/login").permitAll()
+                        .requestMatchers("/user/refreshToken").permitAll()
                         .requestMatchers("/jobPost/checkone").hasAnyRole("JOBSEEKER","RECRUITER")
                         .requestMatchers("/jobPost/checktwo").hasAnyRole("RECRUITER")
+
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

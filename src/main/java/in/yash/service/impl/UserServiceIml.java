@@ -9,6 +9,7 @@ import in.yash.jwtServices.JwtTokenService;
 import in.yash.model.User;
 import in.yash.repo.UserRepo;
 import in.yash.service.UserService;
+import io.jsonwebtoken.JwtException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -57,15 +58,24 @@ public class UserServiceIml implements UserService {
     public loginResponse loginUp(loginRequest request) {
         Authentication authenticate =authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword()));
         loginResponse response=new loginResponse();
-        if(authenticate.isAuthenticated()){
-            Optional<User> user=userRepo.findByEmail(request.getEmail());
-            if(user.isEmpty()){
-                throw new UsernameNotFoundException("User is not present with username: "+request.getEmail());
-            }
-            String token=jwtTokenService.generateToken(user.get());
-
-            response.setToken(token);
+        if(!authenticate.isAuthenticated()){
+            throw new JwtException("something went wrong");
         }
-        return response;
+        Optional<User> user=userRepo.findByEmail(request.getEmail());
+        if(user.isEmpty()){
+            throw new UsernameNotFoundException("User is not present with username: "+request.getEmail());
+        }
+        String accessToken=jwtTokenService.generateAccessToken(user.get());
+        String refreshToken=jwtTokenService.generateRefreshToken(user.get());
+        return new loginResponse(accessToken,refreshToken);
+    }
+    public loginResponse generateNewAcessToken(String refreshToken){
+        Long id=jwtTokenService.extractId(refreshToken);
+        Optional<User>user=userRepo.findById(id);
+        if(user.isEmpty()){
+            throw new UsernameNotFoundException("User not found ");
+        }
+        String newAcessToken=jwtTokenService.generateAccessToken(user.get());
+        return new loginResponse(newAcessToken,refreshToken);
     }
 }
