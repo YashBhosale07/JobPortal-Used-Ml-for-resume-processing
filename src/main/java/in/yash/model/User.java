@@ -22,6 +22,11 @@ public class User implements UserDetails {
     private String password;
     @Enumerated(value=EnumType.STRING)
     private ROLE role;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Recruiter recruiter;
+
+    @OneToOne(mappedBy = "jobseeker_user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private JobSeeker jobSeeker;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_"+role.name()));
