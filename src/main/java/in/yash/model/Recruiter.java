@@ -13,9 +13,7 @@ public class Recruiter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String recruiter_name;
     private String companyName;
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @OneToOne(targetEntity = User.class,cascade = CascadeType.ALL)
+    private User recruiter_user;
 }
