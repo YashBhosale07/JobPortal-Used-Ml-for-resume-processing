@@ -16,4 +16,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(JobPostNotFoundException.class)
+    public ResponseEntity<ErrorResponse>jobPostNotFoundException(JobPostNotFoundException jobPostNotFoundException){
+        ErrorResponse errorResponse=new ErrorResponse(jobPostNotFoundException.getMessage(),LocalDateTime.now());
+        return new ResponseEntity<>(errorResponse,HttpStatus.BAD_REQUEST);
+    }
+
 }

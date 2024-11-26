@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>yash</groupId>
-	<artifactId>Job-Portal-ML-for-processing-of-resumes</artifactId>
+	<artifactId>Job-Portal</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Job-Portal-ML-for-processing-of-resumes</name>
 	<description> Job Portal in which we will use machine learning for processing the resume</description>
