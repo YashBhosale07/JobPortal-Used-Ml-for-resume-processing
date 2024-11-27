@@ -1,5 +1,4 @@
         package in.yash.service.impl;
-
         import in.yash.dto.loginRequest;
         import in.yash.dto.loginResponse;
         import in.yash.dto.signUpRequest;
@@ -123,6 +122,7 @@
                 String refreshToken=jwtTokenService.generateRefreshToken(user.get());
                 return new loginResponse(accessToken,refreshToken);
             }
+
             public loginResponse generateNewAcessToken(String refreshToken){
                 Long id=jwtTokenService.extractId(refreshToken);
                 Optional<User>user=userRepo.findById(id);

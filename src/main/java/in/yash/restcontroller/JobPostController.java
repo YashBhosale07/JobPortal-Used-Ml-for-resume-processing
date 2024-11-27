@@ -1,7 +1,9 @@
 package in.yash.restcontroller;
 
+import in.yash.dto.ApplicationsResponse;
 import in.yash.dto.JobPostRequest;
 import in.yash.model.JobPost;
+import in.yash.model.JobSeekerEntities.ApplyForJob;
 import in.yash.service.JobPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,12 @@ public class JobPostController {
        return new ResponseEntity<String>(name,HttpStatus.CREATED);
    }
 
+   @GetMapping("/getJobById/{jobId}")
+   public ResponseEntity<?>getJobPostById(@PathVariable Long jobId){
+       JobPost jobPost=jobPostService.getJobById(jobId);
+       return new ResponseEntity<JobPost>(jobPost,HttpStatus.FOUND);
+   }
+
    @PutMapping("/updateStatus/{jobId}")
     public ResponseEntity<?>updateJobStatus(@PathVariable Long jobId){
        String status=jobPostService.updateJobStatus(jobId);
@@ -33,6 +41,18 @@ public class JobPostController {
     public ResponseEntity<?>getAllJobs(){
        List<JobPost>jobPosts =jobPostService.getAllJobs();
        return new ResponseEntity<>(jobPosts,HttpStatus.FOUND);
+   }
+
+   @DeleteMapping("/deleteJobById/{jobId}")
+    public ResponseEntity<?>deleteJobById(@PathVariable Long jobId){
+       String status=jobPostService.deleteJob(jobId);
+       return new ResponseEntity<String>(status,HttpStatus.OK);
+   }
+
+   @GetMapping("/getJobApplications/{jobId}")
+    public ResponseEntity<?>getJobApplications(@PathVariable Long jobId){
+       List<ApplicationsResponse>applications =jobPostService.getJobApplications(jobId);
+       return new ResponseEntity<>(applications,HttpStatus.FOUND);
    }
 
 }

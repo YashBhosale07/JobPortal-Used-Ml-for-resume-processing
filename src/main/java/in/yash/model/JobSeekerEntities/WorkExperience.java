@@ -1,5 +1,6 @@
 package in.yash.model.JobSeekerEntities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,7 @@ public class WorkExperience {
     private String designation;
     private String projects;
     @OneToOne(targetEntity = JobSeeker.class,cascade = CascadeType.ALL)
+    @JsonBackReference
     private JobSeeker jobSeeker;
 
 }

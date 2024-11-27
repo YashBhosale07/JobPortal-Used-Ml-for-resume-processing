@@ -1,12 +1,15 @@
     package in.yash.model;
 
     import com.fasterxml.jackson.annotation.JsonBackReference;
+    import com.fasterxml.jackson.annotation.JsonManagedReference;
+    import in.yash.model.JobSeekerEntities.ApplyForJob;
     import jakarta.persistence.*;
     import lombok.AllArgsConstructor;
     import lombok.Data;
     import lombok.NoArgsConstructor;
 
     import java.util.Date;
+    import java.util.List;
 
     @Entity
     @Data
@@ -29,5 +32,8 @@
         @ManyToOne(targetEntity = Recruiter.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
         @JsonBackReference
         private Recruiter recruiter;
+        @OneToMany(targetEntity = ApplyForJob.class,cascade = CascadeType.ALL,mappedBy = "jobPost")
+        @JsonManagedReference
+        private List<ApplyForJob>applyForJobs;
 
     }

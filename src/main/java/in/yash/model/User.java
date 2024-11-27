@@ -1,5 +1,6 @@
 package in.yash.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import in.yash.model.JobSeekerEntities.JobSeeker;
 import in.yash.utils.ROLE;
 import jakarta.persistence.*;
@@ -24,9 +25,11 @@ public class User implements UserDetails {
     @Enumerated(value=EnumType.STRING)
     private ROLE role;
     @OneToOne(mappedBy = "recruiter_user", targetEntity = Recruiter.class,cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Recruiter recruiter;
 
     @OneToOne(mappedBy = "jobseeker_user", targetEntity = JobSeeker.class,cascade = CascadeType.ALL)
+    @JsonManagedReference
     private JobSeeker jobseeker_user;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

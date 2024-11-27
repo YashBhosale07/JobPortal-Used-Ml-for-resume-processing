@@ -28,8 +28,8 @@ public class SecurityConfig {
                         .requestMatchers("/user/register").permitAll()
                         .requestMatchers("/user/login").permitAll()
                         .requestMatchers("/user/refreshToken").permitAll()
-                        .requestMatchers("/jobPost/checkone").hasAnyRole("JOBSEEKER","RECRUITER")
-                        .requestMatchers("/jobPost/checktwo").hasAnyRole("RECRUITER")
+                        .requestMatchers("/jobPost/**").hasAnyRole("RECRUITER")
+                        .requestMatchers("/jobSeeker/**").hasAnyRole("JOBSEEKER")
 
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

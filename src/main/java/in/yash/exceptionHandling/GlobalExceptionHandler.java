@@ -22,4 +22,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse,HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ApplicationsForJobNotFoundException.class)
+    public ResponseEntity<ErrorResponse>applicationsForJobNotFoundException(ApplicationsForJobNotFoundException applicationsNotFoundException){
+        ErrorResponse errorResponse=new ErrorResponse(applicationsNotFoundException.getMessage(), LocalDateTime.now());
+        return new ResponseEntity<>(errorResponse,HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(JobSeekerNotPresentException.class)
+    public ResponseEntity<ErrorResponse>JobSeekerNotPresentException(JobSeekerNotPresentException jobSeekerNotPresentException){
+        ErrorResponse errorResponse=new ErrorResponse(jobSeekerNotPresentException.getMessage(), LocalDateTime.now());
+        return new ResponseEntity<>(errorResponse,HttpStatus.NOT_FOUND);
+    }
+
 }

@@ -1,27 +1,31 @@
 package in.yash.model.JobSeekerEntities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import in.yash.utils.JobPreferences;
-import in.yash.utils.LocationPreference;
+import in.yash.model.JobPost;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProfessionalDetails {
+public class ApplyForJob {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Double experienceYears;
-    @Enumerated(EnumType.STRING)
-    private JobPreferences jobPreferences;
-    @Enumerated(EnumType.STRING)
-    private LocationPreference locationPreference;
-    @OneToOne(targetEntity = JobSeeker.class,cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = JobPost.class,cascade = CascadeType.ALL)
+    @JsonBackReference
+    private JobPost jobPost;
+
+    @ManyToOne(targetEntity = JobSeeker.class,cascade = CascadeType.ALL)
     @JsonBackReference
     private JobSeeker jobSeeker;
+    private String coverLetter;
+    private String email;
+    private String contactNumber;
+    private Date appliedDate;
 }
