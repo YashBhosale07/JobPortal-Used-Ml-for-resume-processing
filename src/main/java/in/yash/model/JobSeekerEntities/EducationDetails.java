@@ -17,7 +17,7 @@ public class EducationDetails {
     private String highestQualification;
     private String institutionName;
     private String graduationYear;
-    @OneToOne(targetEntity = JobSeeker.class,cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = JobSeeker.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonBackReference
     private JobSeeker jobSeeker;
 

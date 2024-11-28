@@ -34,4 +34,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse,HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(ResumeFailedToSaveException.class)
+    public ResponseEntity<ErrorResponse>resumeFailedToSave(ResumeFailedToSaveException resumeFailedToSaveException){
+        ErrorResponse errorResponse=new ErrorResponse(resumeFailedToSaveException.getMessage(), LocalDateTime.now());
+        return new ResponseEntity<>(errorResponse,HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CannotApplyForJob.class)
+    public ResponseEntity<ErrorResponse>failed(CannotApplyForJob cannotApplyForJob){
+        ErrorResponse errorResponse=new ErrorResponse(cannotApplyForJob.getMessage(), LocalDateTime.now());
+        return new ResponseEntity<>(errorResponse,HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }

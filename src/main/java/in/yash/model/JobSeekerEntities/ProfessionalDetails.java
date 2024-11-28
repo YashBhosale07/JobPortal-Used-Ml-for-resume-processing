@@ -21,7 +21,7 @@ public class ProfessionalDetails {
     private JobPreferences jobPreferences;
     @Enumerated(EnumType.STRING)
     private LocationPreference locationPreference;
-    @OneToOne(targetEntity = JobSeeker.class,cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = JobSeeker.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonBackReference
     private JobSeeker jobSeeker;
 }

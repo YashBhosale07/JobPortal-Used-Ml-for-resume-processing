@@ -1,5 +1,6 @@
 package in.yash.service.impl;
 
+import in.yash.dto.UserDTO;
 import in.yash.model.User;
 import in.yash.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,17 @@ public class CustomUserServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user=userRepo.findByEmail(username);
-        if(user.isEmpty()){
-            throw new UsernameNotFoundException("User is not present with username: "+username);
-        }
-        return user.get();
+
+        UserDTO dto = userRepo.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username " + username));
+
+        User user=new User();
+        user.setId(dto.getId());
+        user.setName(dto.getName());
+        user.setEmail(dto.getEmail());
+        user.setPassword(dto.getPassword());
+        user.setRole(dto.getRole());
+        return user;
+
     }
 }

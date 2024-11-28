@@ -17,7 +17,7 @@ public class WorkExperience {
     private String companiesWorkedAt;
     private String designation;
     private String projects;
-    @OneToOne(targetEntity = JobSeeker.class,cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = JobSeeker.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonBackReference
     private JobSeeker jobSeeker;
 

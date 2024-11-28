@@ -21,10 +21,9 @@ public class ApplyForJob {
     @JsonBackReference
     private JobPost jobPost;
 
-    @ManyToOne(targetEntity = JobSeeker.class,cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = JobSeeker.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonBackReference
     private JobSeeker jobSeeker;
-    private String coverLetter;
     private String email;
     private String contactNumber;
     private Date appliedDate;
